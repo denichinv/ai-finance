@@ -1,15 +1,22 @@
 import { useState } from "react";
+import type { Transaction } from "../types/transaction";
 
 export default function AddTransaction() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
-  const [type, setType] = useState("expense");
+  const [type, setType] = useState<"income" | "expense">("expense");
   const [date, setDate] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
+    const transaction: Transaction = {
+      amount: Number(amount),
+      category,
+      type,
+      date,
+    };
     e.preventDefault();
     // from here we will send data to the backend API to save the transaction
-    console.log({ amount, category, type, date });
+    console.log(transaction);
     // Reset form fields after the submission
     setAmount("");
     setCategory("");
@@ -40,7 +47,10 @@ export default function AddTransaction() {
           onChange={(e) => setCategory(e.target.value)}
         />
         <label> Type:</label>
-        <select value={type} onChange={(e) => setType(e.target.value)}>
+        <select
+          value={type}
+          onChange={(e) => setType(e.target.value as "income" | "expense")}
+        >
           <option value="expense">Expense</option>
           <option value="income">Income</option>
         </select>
