@@ -33,7 +33,7 @@ export default function AddTransaction() {
         transaction.
       </p>
 
-      <form>
+      <form onSubmit={handleSubmit}>
         <label> Amount:</label>
         <input
           type="number"
@@ -60,9 +60,7 @@ export default function AddTransaction() {
           value={date}
           onChange={(e) => setDate(e.target.value)}
         />
-        <button type="submit" onSubmit={handleSubmit}>
-          Add Transaction
-        </button>
+        <button type="submit">Add Transaction</button>
       </form>
     </div>
   );
