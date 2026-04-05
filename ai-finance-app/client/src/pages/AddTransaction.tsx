@@ -1,20 +1,28 @@
 import { useState } from "react";
 import type { Transaction } from "../types/transaction";
 
-export default function AddTransaction() {
+type Props = {
+  onAddTransaction: (Transaction: Transaction) => void;
+};
+
+export default function AddTransaction({ onAddTransaction }: Props) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
   const [date, setDate] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     const transaction: Transaction = {
       amount: Number(amount),
       category,
       type,
       date,
     };
-    e.preventDefault();
+    if (!amount || Number(amount) <= 0) return;
+    if (!category) return;
+    if (!date) return;
+    onAddTransaction(transaction);
     // from here we will send data to the backend API to save the transaction
     console.log(transaction);
     // Reset form fields after the submission
