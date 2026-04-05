@@ -23,6 +23,7 @@ export default function AddTransaction({ onAddTransaction }: Props) {
     if (!category) return;
     if (!date) return;
     onAddTransaction(transaction);
+    alert("Transaction added");
     // from here we will send data to the backend API to save the transaction
     console.log(transaction);
     // Reset form fields after the submission
