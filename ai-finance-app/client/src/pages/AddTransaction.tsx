@@ -22,6 +22,7 @@ export default function AddTransaction({ onAddTransaction }: Props) {
     if (!amount || Number(amount) <= 0) return;
     if (!category) return;
     if (!date) return;
+    alert("Transaction added");
     onAddTransaction(transaction);
     alert("Transaction added");
     // from here we will send data to the backend API to save the transaction
