@@ -18,7 +18,7 @@ function App() {
       <BrowserRouter>
         <Navbar />
         <Routes>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/" element={<Dashboard transactions={transactions} />} />
           <Route
             path="add"
             element={<AddTransaction onAddTransaction={handleTransaction} />}
@@ -27,15 +27,6 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
-      {transactions.length === 0 ? (
-        <p>No transactions yet</p>
-      ) : (
-        transactions.map((t, i) => (
-          <div key={i}>
-            {t.category} - £{t.amount} - {t.date}
-          </div>
-        ))
-      )}
     </>
   );
 }
