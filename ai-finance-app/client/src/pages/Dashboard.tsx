@@ -14,6 +14,16 @@ export default function Dashboard({ transactions }: Props) {
     .reduce((acc, t) => acc + t.amount, 0);
 
   const balance = (totalIncome - totalExpense).toFixed(2);
+
+  const categoryTotals: Record<string, number> = {};
+
+  transactions.forEach((t) => {
+    if (categoryTotals[t.category]) {
+      categoryTotals[t.category] += t.amount;
+    } else {
+      categoryTotals[t.category] = t.amount;
+    }
+  });
   return (
     <div>
       <h1>Dashboard</h1>
@@ -64,6 +74,14 @@ export default function Dashboard({ transactions }: Props) {
       <h3>Total Income: £{totalIncome}</h3>
       <h3>Total Expense: £{totalExpense}</h3>
       <h3>Balance: £{balance}</h3>
+      <h3>Spending by Category:</h3>
+      <ul>
+        {Object.entries(categoryTotals).map(([category, total]) => (
+          <li key={category}>
+            {category}: £{total.toFixed(2)}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
