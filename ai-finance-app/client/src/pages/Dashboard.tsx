@@ -24,11 +24,27 @@ export default function Dashboard({ transactions }: Props) {
       {transactions.length === 0 ? (
         <p>No transactions yet</p>
       ) : (
-        transactions.map((t, i) => (
-          <div key={i}>
-            {t.category} - £{t.amount} - {t.date}
-          </div>
-        ))
+        <table>
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Amount</th>
+              <th>Type</th>
+              <th>Date</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {transactions.map((t, index) => (
+              <tr key={index}>
+                <td>{t.category}</td>
+                <td>£{t.amount}</td>
+                <td>{t.type}</td>
+                <td>{t.date}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       )}
     </div>
   );
