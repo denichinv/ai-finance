@@ -5,6 +5,15 @@ type Props = {
 };
 
 export default function Dashboard({ transactions }: Props) {
+  const totalIncome = transactions
+    .filter((t) => t.type === "income")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const totalExpense = transactions
+    .filter((t) => t.type === "expense")
+    .reduce((acc, t) => acc + t.amount, 0);
+
+  const balance = (totalIncome - totalExpense).toFixed(2);
   return (
     <div>
       <h1>Dashboard</h1>
@@ -46,6 +55,15 @@ export default function Dashboard({ transactions }: Props) {
           </tbody>
         </table>
       )}
+      <h2>Financial Insights</h2>
+      <p>
+        Here you can find insights into your spending habits, income trends, and
+        overall financial health. Use this information to make informed
+        decisions about your money.
+      </p>
+      <h3>Total Income: £{totalIncome}</h3>
+      <h3>Total Expense: £{totalExpense}</h3>
+      <h3>Balance: £{balance}</h3>
     </div>
   );
 }
