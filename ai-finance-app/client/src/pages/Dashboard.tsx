@@ -9,13 +9,14 @@ export default function Dashboard({ transactions }: Props) {
     .filter((t) => t.type === "income")
     .reduce((acc, t) => acc + t.amount, 0);
 
-  const totalExpense = transactions
+  const totalExpenses = transactions
     .filter((t) => t.type === "expense")
     .reduce((acc, t) => acc + t.amount, 0);
 
-  const balance = (totalIncome - totalExpense).toFixed(2);
+  const balance = totalIncome - totalExpenses;
 
   const categoryTotals: Record<string, number> = {};
+  const insights: string[] = [];
 
   transactions.forEach((t) => {
     if (categoryTotals[t.category]) {
@@ -24,64 +25,90 @@ export default function Dashboard({ transactions }: Props) {
       categoryTotals[t.category] = t.amount;
     }
   });
+
+  // AI-like insights
+  if (balance < 0) {
+    insights.push("You are spending more than you earn.");
+  } else if (balance > 0) {
+    insights.push("You are saving money this period.");
+  }
+
+  let topCategory = "";
+  let topAmount = 0;
+
+  Object.entries(categoryTotals).forEach(([category, total]) => {
+    if (total > topAmount) {
+      topCategory = category;
+      topAmount = total;
+    }
+  });
+
+  if (topCategory) {
+    insights.push(`You spend most of your money on ${topCategory}.`);
+  }
+
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>
-        Welcome to your financial dashboard! Here you can view your account
-        balances, recent transactions, and financial insights.
-      </p>
 
-      <h2>Account Balances</h2>
-      <p>
-        Your current account balances are displayed here. You can see how much
-        money you have in each of your accounts at a glance.
-      </p>
+      {/* 🔝 SUMMARY */}
+      <section>
+        <h2>Summary</h2>
+        <p>Income: £{totalIncome.toFixed(2)}</p>
+        <p>Expenses: £{totalExpenses.toFixed(2)}</p>
+        <p>Balance: £{balance.toFixed(2)}</p>
+      </section>
 
-      <h2>Recent Transactions</h2>
+      {/* 🧠 INSIGHTS */}
+      <section>
+        <h2>Insights</h2>
 
-      {transactions.length === 0 ? (
-        <p>No transactions yet</p>
-      ) : (
-        <table>
-          <thead>
-            <tr>
-              <th>Category</th>
-              <th>Amount</th>
-              <th>Type</th>
-              <th>Date</th>
-            </tr>
-          </thead>
+        {insights.length === 0 ? (
+          <p>No insights yet</p>
+        ) : (
+          insights.map((insight, index) => <p key={index}>💡 {insight}</p>)
+        )}
 
-          <tbody>
-            {transactions.map((t, index) => (
-              <tr key={index}>
-                <td>{t.category}</td>
-                <td>£{t.amount}</td>
-                <td>{t.type}</td>
-                <td>{t.date}</td>
+        <h3>Spending by Category</h3>
+        <ul>
+          {Object.entries(categoryTotals).map(([category, total]) => (
+            <li key={category}>
+              {category}: £{total.toFixed(2)}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      {/* 📊 TRANSACTIONS */}
+      <section>
+        <h2>Transactions</h2>
+
+        {transactions.length === 0 ? (
+          <p>No transactions yet</p>
+        ) : (
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Amount</th>
+                <th>Type</th>
+                <th>Date</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-      <h2>Financial Insights</h2>
-      <p>
-        Here you can find insights into your spending habits, income trends, and
-        overall financial health. Use this information to make informed
-        decisions about your money.
-      </p>
-      <h3>Total Income: £{totalIncome}</h3>
-      <h3>Total Expense: £{totalExpense}</h3>
-      <h3>Balance: £{balance}</h3>
-      <h3>Spending by Category:</h3>
-      <ul>
-        {Object.entries(categoryTotals).map(([category, total]) => (
-          <li key={category}>
-            {category}: £{total.toFixed(2)}
-          </li>
-        ))}
-      </ul>
+            </thead>
+
+            <tbody>
+              {transactions.map((t, index) => (
+                <tr key={index}>
+                  <td>{t.category}</td>
+                  <td>£{t.amount.toFixed(2)}</td>
+                  <td>{t.type}</td>
+                  <td>{t.date}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+      </section>
     </div>
   );
 }
