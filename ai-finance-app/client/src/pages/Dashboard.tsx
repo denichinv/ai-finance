@@ -105,29 +105,48 @@ export default function Dashboard({ transactions }: Props) {
         </section>
 
         {/* 📊 TRANSACTIONS */}
-        <section>
-          <h2>Transactions</h2>
+        <section bg-white rounded-2xl shadow-sm overflow-hidden>
+          <div className="p-5 border-b border-gray-100 ">
+            <h2 className="text-lg font-semibold text-gray-900">
+              Transactions
+            </h2>
+          </div>
 
           {transactions.length === 0 ? (
-            <p>No transactions yet</p>
+            <p className="p-5 text-gray-500">No transactions yet</p>
           ) : (
-            <table>
-              <thead>
+            <table className="w-full text-sm">
+              <thead className="bg-gray-50 text-gray-500">
                 <tr>
-                  <th>Category</th>
-                  <th>Amount</th>
-                  <th>Type</th>
-                  <th>Date</th>
+                  <th className="p-4 text-left font-medium">Category</th>
+                  <th className="p-4 text-left font-medium">Amount</th>
+                  <th className="p-4 text-left font-medium">Type</th>
+                  <th className="p-4 text-left font-medium">Date</th>
                 </tr>
               </thead>
 
               <tbody>
                 {transactions.map((t, index) => (
-                  <tr key={index}>
-                    <td>{t.category}</td>
-                    <td>£{t.amount.toFixed(2)}</td>
-                    <td>{t.type}</td>
-                    <td>{t.date}</td>
+                  <tr
+                    key={index}
+                    className="border-t hoover:bg-gray-50 transition"
+                  >
+                    <td className="p-4 text-gray-800">{t.category}</td>
+                    <td className="p-4 font-medium text-gray-900">
+                      £{t.amount.toFixed(2)}
+                    </td>
+                    <td className="p-4">
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs font-medium ${
+                          t.type === "income"
+                            ? "bg-green-100 text-green-700"
+                            : "bg-red-100 text-red-600"
+                        }`}
+                      >
+                        {t.type}
+                      </span>
+                    </td>
+                    <td className="p-4 text-gray-500">{t.date}</td>
                   </tr>
                 ))}
               </tbody>
