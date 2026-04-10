@@ -55,11 +55,25 @@ export default function Dashboard({ transactions }: Props) {
         </h1>
 
         {/* 🔝 SUMMARY */}
-        <section className="mb-6">
-          <h2>Summary</h2>
-          <p>Income: £{totalIncome.toFixed(2)}</p>
-          <p>Expenses: £{totalExpenses.toFixed(2)}</p>
-          <p>Balance: £{balance.toFixed(2)}</p>
+        <section className="grid gird-cols-1 md:grid-cols-3 gap-4 mb-6">
+          <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+            <p className="text-gray-500 text-sm">Income</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              £{totalIncome.toFixed(2)}
+            </h3>
+          </div>
+          <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+            <p className="text-gray-500 text-sm">Expenses</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              £{totalExpenses.toFixed(2)}
+            </h3>
+          </div>
+          <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+            <p className="text-gray-500 text-sm">Balance</p>
+            <h3 className="text-2xl font-bold text-gray-900">
+              £{balance.toFixed(2)}
+            </h3>
+          </div>
         </section>
 
         {/* 🧠 INSIGHTS */}
