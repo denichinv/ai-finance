@@ -48,67 +48,71 @@ export default function Dashboard({ transactions }: Props) {
   }
 
   return (
-    <div>
-      <h1>Dashboard</h1>
+    <div className="min-h-screen bg-gray-100">
+      <div className="max-w-6xl mx-auto p-6">
+        <h1 className="text-2xl font-semibold text-gray-900 mb-6 ">
+          Dashboard
+        </h1>
 
-      {/* 🔝 SUMMARY */}
-      <section>
-        <h2>Summary</h2>
-        <p>Income: £{totalIncome.toFixed(2)}</p>
-        <p>Expenses: £{totalExpenses.toFixed(2)}</p>
-        <p>Balance: £{balance.toFixed(2)}</p>
-      </section>
+        {/* 🔝 SUMMARY */}
+        <section className="mb-6">
+          <h2>Summary</h2>
+          <p>Income: £{totalIncome.toFixed(2)}</p>
+          <p>Expenses: £{totalExpenses.toFixed(2)}</p>
+          <p>Balance: £{balance.toFixed(2)}</p>
+        </section>
 
-      {/* 🧠 INSIGHTS */}
-      <section>
-        <h2>Insights</h2>
+        {/* 🧠 INSIGHTS */}
+        <section>
+          <h2>Insights</h2>
 
-        {insights.length === 0 ? (
-          <p>No insights yet</p>
-        ) : (
-          insights.map((insight, index) => <p key={index}>💡 {insight}</p>)
-        )}
+          {insights.length === 0 ? (
+            <p>No insights yet</p>
+          ) : (
+            insights.map((insight, index) => <p key={index}>💡 {insight}</p>)
+          )}
 
-        <h3>Spending by Category</h3>
-        <ul>
-          {Object.entries(categoryTotals).map(([category, total]) => (
-            <li key={category}>
-              {category}: £{total.toFixed(2)}
-            </li>
-          ))}
-        </ul>
-      </section>
+          <h3>Spending by Category</h3>
+          <ul>
+            {Object.entries(categoryTotals).map(([category, total]) => (
+              <li key={category}>
+                {category}: £{total.toFixed(2)}
+              </li>
+            ))}
+          </ul>
+        </section>
 
-      {/* 📊 TRANSACTIONS */}
-      <section>
-        <h2>Transactions</h2>
+        {/* 📊 TRANSACTIONS */}
+        <section>
+          <h2>Transactions</h2>
 
-        {transactions.length === 0 ? (
-          <p>No transactions yet</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Category</th>
-                <th>Amount</th>
-                <th>Type</th>
-                <th>Date</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              {transactions.map((t, index) => (
-                <tr key={index}>
-                  <td>{t.category}</td>
-                  <td>£{t.amount.toFixed(2)}</td>
-                  <td>{t.type}</td>
-                  <td>{t.date}</td>
+          {transactions.length === 0 ? (
+            <p>No transactions yet</p>
+          ) : (
+            <table>
+              <thead>
+                <tr>
+                  <th>Category</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                  <th>Date</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </section>
+              </thead>
+
+              <tbody>
+                {transactions.map((t, index) => (
+                  <tr key={index}>
+                    <td>{t.category}</td>
+                    <td>£{t.amount.toFixed(2)}</td>
+                    <td>{t.type}</td>
+                    <td>{t.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </section>
+      </div>
     </div>
   );
 }
