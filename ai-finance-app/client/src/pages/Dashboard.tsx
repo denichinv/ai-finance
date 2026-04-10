@@ -77,23 +77,31 @@ export default function Dashboard({ transactions }: Props) {
         </section>
 
         {/* 🧠 INSIGHTS */}
-        <section>
-          <h2>Insights</h2>
+        <section className="bg-black text-white p-6 rounded-2xl mb-6 hover:shadow-lg transition">
+          <h2 className="text-lg font-semibold mb-4 ">AI Insights</h2>
 
           {insights.length === 0 ? (
-            <p>No insights yet</p>
+            <p className="text-gray-400 ">No insights yet</p>
           ) : (
-            insights.map((insight, index) => <p key={index}>💡 {insight}</p>)
+            insights.map((insight, index) => (
+              <p key={index} className="text-gray-300 mb-2">
+                💡 {insight}
+              </p>
+            ))
           )}
 
-          <h3>Spending by Category</h3>
-          <ul>
-            {Object.entries(categoryTotals).map(([category, total]) => (
-              <li key={category}>
-                {category}: £{total.toFixed(2)}
-              </li>
-            ))}
-          </ul>
+          <div className="mt-4">
+            <h3 className="text-sm text-gray-400 mb-2 ">
+              Spending by Category
+            </h3>
+            <ul className="space-y-1">
+              {Object.entries(categoryTotals).map(([category, total]) => (
+                <li key={category} className="text-gray-300">
+                  {category}: £{total.toFixed(2)}
+                </li>
+              ))}
+            </ul>
+          </div>
         </section>
 
         {/* 📊 TRANSACTIONS */}
