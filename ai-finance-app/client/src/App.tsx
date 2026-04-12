@@ -1,11 +1,23 @@
 import Dashboard from "./pages/Dashboard";
 import AddTransaction from "./pages/AddTransaction";
 import Goals from "./pages/Goals";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import NotFound from "./pages/NotFound";
 import type { Transaction } from "./types/transaction";
 import { useState } from "react";
+
+function Layout() {
+  return (
+    <div className="flex min-h-screen bg-gray-100">
+      <Navbar />
+
+      <main className="flex-1 p-6">
+        <Outlet />
+      </main>
+    </div>
+  );
+}
 
 function App() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
@@ -13,21 +25,24 @@ function App() {
   const handleTransaction = (newTransaction: Transaction) => {
     setTransactions((prev) => [...prev, newTransaction]);
   };
+
   return (
-    <>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
           <Route path="/" element={<Dashboard transactions={transactions} />} />
+
           <Route
             path="add"
             element={<AddTransaction onAddTransaction={handleTransaction} />}
           />
+
           <Route path="goals" element={<Goals />} />
+
           <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </>
+        </Route>
+      </Routes>
+    </BrowserRouter>
   );
 }
 
