@@ -14,7 +14,7 @@ export default function Navbar() {
   return (
     <aside className="w-64 bg-black text-white p-5 flex flex-col h-screen">
       {/* LOGO */}
-      <h1 className="text-lg font-semibold mb-8">FinLand</h1>
+      <h1 className="text-lg font-semibold mb-8">SpendWise</h1>
 
       {/* NAV */}
       <nav className="flex flex-col gap-2">
