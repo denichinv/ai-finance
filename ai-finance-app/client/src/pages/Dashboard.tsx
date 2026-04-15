@@ -20,11 +20,7 @@ export default function Dashboard({ transactions }: Props) {
   const insights: string[] = [];
 
   transactions.forEach((t) => {
-    if (categoryTotals[t.category]) {
-      categoryTotals[t.category] += t.amount;
-    } else {
-      categoryTotals[t.category] = t.amount;
-    }
+    categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
   });
 
   if (balance < 0) {
@@ -49,46 +45,71 @@ export default function Dashboard({ transactions }: Props) {
 
   return (
     <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
     >
-      <div className="min-h-screen bg-gray-100">
+      <div className="bg-gray-100 min-h-screen">
         <div className="max-w-7xl mx-auto p-6">
           <h1 className="text-2xl font-semibold text-gray-900 mb-6">
             Dashboard
           </h1>
 
-          {/* GRID LAYOUT */}
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* LEFT */}
             <div className="lg:col-span-1 space-y-6">
               {/* SUMMARY */}
               <section className="grid grid-cols-1 gap-4">
-                <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                {/* Income */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.1 }}
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition"
+                >
                   <p className="text-gray-500 text-sm">Income</p>
                   <h3 className="text-2xl font-bold text-gray-900">
                     £{totalIncome.toFixed(2)}
                   </h3>
-                </div>
+                </motion.div>
 
-                <div className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition">
+                {/* Expenses */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.2 }}
+                  whileHover={{ scale: 1.03 }}
+                  className="bg-white p-5 rounded-2xl shadow-sm hover:shadow-md transition"
+                >
                   <p className="text-gray-500 text-sm">Expenses</p>
                   <h3 className="text-2xl font-bold text-gray-900">
                     £{totalExpenses.toFixed(2)}
                   </h3>
-                </div>
+                </motion.div>
 
-                <div className="bg-lime-400 p-5 rounded-2xl shadow-sm hover:scale-105 transition">
+                {/* Balance */}
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.3 }}
+                  whileHover={{ scale: 1.05 }}
+                  className="bg-lime-400 p-5 rounded-2xl shadow-sm"
+                >
                   <p className="text-black text-sm">Balance</p>
                   <h3 className="text-2xl font-bold text-black">
                     £{balance.toFixed(2)}
                   </h3>
-                </div>
+                </motion.div>
               </section>
 
-              {/* CATEGORY BREAKDOWN */}
-              <section className="bg-white p-5 rounded-2xl shadow-sm">
+              {/* CATEGORY */}
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.4 }}
+                className="bg-white p-5 rounded-2xl shadow-sm"
+              >
                 <h3 className="text-sm text-gray-500 mb-2">
                   Spending by Category
                 </h3>
@@ -100,13 +121,18 @@ export default function Dashboard({ transactions }: Props) {
                     </li>
                   ))}
                 </ul>
-              </section>
+              </motion.section>
             </div>
 
             {/* RIGHT */}
             <div className="lg:col-span-2 space-y-6">
               {/* AI INSIGHTS */}
-              <section className="bg-black text-white p-6 rounded-2xl hover:shadow-lg transition">
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5 }}
+                className="bg-black text-white p-6 rounded-2xl"
+              >
                 <h2 className="text-lg font-semibold mb-4">AI Insights</h2>
 
                 {insights.length === 0 ? (
@@ -118,10 +144,15 @@ export default function Dashboard({ transactions }: Props) {
                     </p>
                   ))
                 )}
-              </section>
+              </motion.section>
 
               {/* TRANSACTIONS */}
-              <section className="bg-white rounded-2xl shadow-sm overflow-hidden">
+              <motion.section
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.6 }}
+                className="bg-white rounded-2xl shadow-sm overflow-hidden"
+              >
                 <div className="p-5 border-b border-gray-100">
                   <h2 className="text-lg font-semibold text-gray-900">
                     Transactions
@@ -134,10 +165,10 @@ export default function Dashboard({ transactions }: Props) {
                   <table className="w-full text-sm">
                     <thead className="bg-gray-50 text-gray-500">
                       <tr>
-                        <th className="p-4 text-left font-medium">Category</th>
-                        <th className="p-4 text-left font-medium">Amount</th>
-                        <th className="p-4 text-left font-medium">Type</th>
-                        <th className="p-4 text-left font-medium">Date</th>
+                        <th className="p-4 text-left">Category</th>
+                        <th className="p-4 text-left">Amount</th>
+                        <th className="p-4 text-left">Type</th>
+                        <th className="p-4 text-left">Date</th>
                       </tr>
                     </thead>
 
@@ -155,7 +186,7 @@ export default function Dashboard({ transactions }: Props) {
 
                           <td className="p-4">
                             <span
-                              className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              className={`px-2 py-1 rounded-full text-xs ${
                                 t.type === "income"
                                   ? "bg-green-100 text-green-700"
                                   : "bg-red-100 text-red-600"
@@ -171,7 +202,7 @@ export default function Dashboard({ transactions }: Props) {
                     </tbody>
                   </table>
                 )}
-              </section>
+              </motion.section>
             </div>
           </div>
         </div>
