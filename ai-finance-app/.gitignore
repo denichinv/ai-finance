@@ -1,0 +1,18 @@
+# .NET
+bin/
+obj/
+
+# SQLite
+*.db
+*.db-shm
+*.db-wal
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# Node
+node_modules/
+dist/

@@ -7,13 +7,12 @@ type Props = {
 
 export default function Dashboard({ transactions }: Props) {
   const totalIncome = transactions
-    .filter((t) => t.type === "income")
+    .filter((t) => t.type === 1)
     .reduce((acc, t) => acc + t.amount, 0);
 
   const totalExpenses = transactions
-    .filter((t) => t.type === "expense")
+    .filter((t) => t.type === 0)
     .reduce((acc, t) => acc + t.amount, 0);
-
   const balance = totalIncome - totalExpenses;
 
   const categoryTotals: Record<string, number> = {};
@@ -187,12 +186,12 @@ export default function Dashboard({ transactions }: Props) {
                           <td className="p-4">
                             <span
                               className={`px-2 py-1 rounded-full text-xs ${
-                                t.type === "income"
+                                t.type === 1
                                   ? "bg-green-100 text-green-700"
                                   : "bg-red-100 text-red-600"
                               }`}
                             >
-                              {t.type}
+                              {t.type === 0 ? "Expense" : "Income"}
                             </span>
                           </td>
 

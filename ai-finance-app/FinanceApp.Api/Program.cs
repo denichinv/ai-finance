@@ -10,7 +10,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlite("Data Source=finance.db"));
 
 builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<IGoalService, GoalService>();
@@ -35,7 +35,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors("AllowFrontend");
-app.UseHttpsRedirection();
+
 app.UseAuthorization();
 app.MapControllers();
 
