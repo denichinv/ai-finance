@@ -1,5 +1,17 @@
 const API_URL = "http://localhost:5118/api/Transactions";
-console.log("API_URL:", API_URL);
+
+// GET all transactions
+export const getTransactions = async () => {
+  const response = await fetch(API_URL);
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch transactions");
+  }
+
+  return response.json();
+};
+
+// CREATE transaction
 export const createTransaction = async (data: any) => {
   const response = await fetch(API_URL, {
     method: "POST",
@@ -16,12 +28,13 @@ export const createTransaction = async (data: any) => {
   return response.json();
 };
 
-export const getTransactions = async () => {
-  const response = await fetch(API_URL);
+// DELETE transaction
+export const deleteTransaction = async (id: string) => {
+  const response = await fetch(`${API_URL}/${id}`, {
+    method: "DELETE",
+  });
 
   if (!response.ok) {
-    throw new Error("Failed to fetch transactions");
+    throw new Error("Failed to delete transaction");
   }
-
-  return response.json();
 };
