@@ -36,7 +36,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Dashboard transactions={transactions} />} />
+          <Route
+            path="/"
+            element={
+              <Dashboard
+                transactions={transactions}
+                onRefresh={loadTransactions}
+              />
+            }
+          />
 
           <Route
             path="add"
