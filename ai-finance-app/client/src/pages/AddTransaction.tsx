@@ -1,33 +1,37 @@
 import { useState } from "react";
 import type { Transaction } from "../types/transaction";
 import { motion, AnimatePresence } from "framer-motion";
+import { createTransaction } from "../api/transactions";
 
 type Props = {
-  onAddTransaction: (Transaction: Transaction) => void;
+  onSuccess: () => void;
 };
 
-export default function AddTransaction({ onAddTransaction }: Props) {
+export default function AddTransaction({ onSuccess }: Props) {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
   const [date, setDate] = useState("");
   const [showToast, setShowToast] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!amount || Number(amount) <= 0) return;
     if (!category) return;
     if (!date) return;
 
-    const transaction: Transaction = {
+    const transaction = {
+      title: category,
       amount: Number(amount),
       category,
-      type,
-      date,
+      type: type === "expense" ? 0 : 1,
+      date: new Date(date).toISOString(),
     };
 
-    onAddTransaction(transaction);
+    // save to backend
+    await createTransaction(transaction);
+    onSuccess();
 
     // show toast
     setShowToast(true);
