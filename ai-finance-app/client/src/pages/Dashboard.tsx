@@ -2,10 +2,15 @@ import type { Transaction } from "../types/transaction";
 import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { deleteTransaction } from "../api/transactions";
+import { PieChart, Pie, Cell, Tooltip } from "recharts";
 
 type Props = {
   transactions: Transaction[];
   onRefresh: () => void;
+};
+type ChartData = {
+  name: string;
+  value: number;
 };
 
 export default function Dashboard({ transactions, onRefresh }: Props) {
@@ -23,10 +28,16 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
 
   const categoryTotals: Record<string, number> = {};
   const insights: string[] = [];
-
   transactions.forEach((t) => {
     categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
   });
+  const chartData: ChartData[] = Object.entries(categoryTotals).map(
+    ([category, total]: [string, number]) => ({
+      name: category,
+      value: total,
+    }),
+  );
+  const COLORS = ["#84cc16", "#f87171", "#60a5fa", "#facc15"];
 
   if (balance < 0) {
     insights.push("You are spending more than you earn.");
@@ -58,7 +69,7 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
       console.error(err);
     }
   };
-
+  console.log("chartData:", chartData);
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className="bg-gray-100 min-h-screen">
@@ -102,13 +113,20 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
                 <h3 className="text-sm text-gray-500 mb-2">
                   Spending by Category
                 </h3>
-                <ul>
-                  {Object.entries(categoryTotals).map(([category, total]) => (
-                    <li key={category}>
-                      {category}: £{total.toFixed(2)}
-                    </li>
-                  ))}
-                </ul>
+                <PieChart width={250} height={250}>
+                  <Pie
+                    data={chartData}
+                    dataKey="value"
+                    nameKey="name"
+                    outerRadius={80}
+                  >
+                    {chartData.map((_, index) => (
+                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+
+                  <Tooltip />
+                </PieChart>
               </section>
             </div>
 
