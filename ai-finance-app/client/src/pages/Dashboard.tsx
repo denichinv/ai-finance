@@ -1,8 +1,10 @@
 import type { Transaction } from "../types/transaction";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState } from "react";
+import { motion } from "framer-motion";
 import { deleteTransaction } from "../api/transactions";
-import { PieChart, Pie, Cell, Tooltip } from "recharts";
+import SummaryCards from "../components/dashboard/SummaryCards";
+import SpendingChart from "../components/dashboard/SpendingChart";
+import InsightsPanel from "../components/dashboard/InsightsPanel";
+import TransactionTable from "../components/dashboard/TransactionTable";
 
 type Props = {
   transactions: Transaction[];
@@ -14,8 +16,6 @@ type ChartData = {
 };
 
 export default function Dashboard({ transactions, onRefresh }: Props) {
-  const [hoveredId, setHoveredId] = useState<string | null>(null);
-
   const totalIncome = transactions
     .filter((t) => t.type === 1)
     .reduce((acc, t) => acc + t.amount, 0);
@@ -27,7 +27,7 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
   const balance = totalIncome - totalExpenses;
 
   const categoryTotals: Record<string, number> = {};
-  const insights: string[] = [];
+
   transactions.forEach((t) => {
     categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
   });
@@ -37,13 +37,6 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
       value: total,
     }),
   );
-  const COLORS = ["#84cc16", "#f87171", "#60a5fa", "#facc15"];
-
-  if (balance < 0) {
-    insights.push("You are spending more than you earn.");
-  } else if (balance > 0) {
-    insights.push("You are saving money this period.");
-  }
 
   let topCategory = "";
   let topAmount = 0;
@@ -54,6 +47,13 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
       topAmount = total;
     }
   });
+
+  const insights: string[] = [];
+  if (balance < 0) {
+    insights.push("You are spending more than you earn.");
+  } else if (balance > 0) {
+    insights.push("You are saving money this period.");
+  }
 
   if (topCategory) {
     insights.push(`You spend most of your money on ${topCategory}.`);
@@ -69,7 +69,7 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
       console.error(err);
     }
   };
-  console.log("chartData:", chartData);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <div className="bg-gray-100 min-h-screen">
@@ -79,136 +79,22 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* LEFT */}
             <div className="lg:col-span-1 space-y-6">
-              <section className="grid gap-4">
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  className="bg-white p-5 rounded-2xl shadow-sm"
-                >
-                  <p className="text-gray-500 text-sm">Income</p>
-                  <h3 className="text-2xl font-bold">
-                    £{totalIncome.toFixed(2)}
-                  </h3>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.03 }}
-                  className="bg-white p-5 rounded-2xl shadow-sm"
-                >
-                  <p className="text-gray-500 text-sm">Expenses</p>
-                  <h3 className="text-2xl font-bold">
-                    £{totalExpenses.toFixed(2)}
-                  </h3>
-                </motion.div>
-
-                <motion.div
-                  whileHover={{ scale: 1.05 }}
-                  className="bg-lime-400 p-5 rounded-2xl shadow-sm"
-                >
-                  <p className="text-black text-sm">Balance</p>
-                  <h3 className="text-2xl font-bold">£{balance.toFixed(2)}</h3>
-                </motion.div>
-              </section>
-
-              <section className="bg-white p-5 rounded-2xl shadow-sm">
-                <h3 className="text-sm text-gray-500 mb-2">
-                  Spending by Category
-                </h3>
-                <PieChart width={250} height={250}>
-                  <Pie
-                    data={chartData}
-                    dataKey="value"
-                    nameKey="name"
-                    outerRadius={80}
-                  >
-                    {chartData.map((_, index) => (
-                      <Cell key={index} fill={COLORS[index % COLORS.length]} />
-                    ))}
-                  </Pie>
-
-                  <Tooltip />
-                </PieChart>
-              </section>
+              <SummaryCards
+                income={totalIncome}
+                expenses={totalExpenses}
+                balance={balance}
+              />
+              <SpendingChart data={chartData} />
             </div>
 
             {/* RIGHT */}
             <div className="lg:col-span-2 space-y-6">
-              <section className="bg-black text-white p-6 rounded-2xl">
-                <h2 className="text-lg font-semibold mb-4">AI Insights</h2>
-                {insights.length === 0 ? (
-                  <p>No insights yet</p>
-                ) : (
-                  insights.map((i, idx) => <p key={idx}>💡 {i}</p>)
-                )}
-              </section>
+              <InsightsPanel insights={insights} />
 
-              <section className="bg-white rounded-2xl shadow-sm overflow-hidden">
-                <div className="p-5 border-b">
-                  <h2 className="text-lg font-semibold">Transactions</h2>
-                </div>
-
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50">
-                    <tr>
-                      <th className="p-4 text-left">Category</th>
-                      <th className="p-4 text-left">Amount</th>
-                      <th className="p-4 text-left">Type</th>
-                      <th className="p-4 text-left">Date</th>
-                      <th className="p-4 text-left">Action</th>
-                    </tr>
-                  </thead>
-
-                  <tbody>
-                    {transactions.map((t) => (
-                      <motion.tr
-                        key={t.id}
-                        onHoverStart={() => setHoveredId(t.id)}
-                        onHoverEnd={() => setHoveredId(null)}
-                        className="border-t hover:bg-gray-50"
-                      >
-                        <td className="p-4">{t.category}</td>
-
-                        <td className="p-4 font-medium">
-                          £{t.amount.toFixed(2)}
-                        </td>
-
-                        <td className="p-4">
-                          <span
-                            className={`px-2 py-1 rounded-full text-xs ${
-                              t.type === 1
-                                ? "bg-green-100 text-green-700"
-                                : "bg-red-100 text-red-600"
-                            }`}
-                          >
-                            {t.type === 0 ? "Expense" : "Income"}
-                          </span>
-                        </td>
-
-                        <td className="p-4 text-gray-500">
-                          {new Date(t.date).toLocaleDateString()}
-                        </td>
-
-                        <td className="p-4">
-                          <AnimatePresence>
-                            {hoveredId === t.id && (
-                              <motion.button
-                                onClick={() => handleDelete(t.id)}
-                                initial={{ opacity: 0, x: 10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                exit={{ opacity: 0, x: 10 }}
-                                whileHover={{ scale: 1.2 }}
-                                whileTap={{ scale: 0.9 }}
-                                className="text-red-500 hover:text-red-700"
-                              >
-                                ✕
-                              </motion.button>
-                            )}
-                          </AnimatePresence>
-                        </td>
-                      </motion.tr>
-                    ))}
-                  </tbody>
-                </table>
-              </section>
+              <TransactionTable
+                transactions={transactions}
+                onDelete={handleDelete}
+              />
             </div>
           </div>
         </div>
