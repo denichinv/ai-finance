@@ -1,4 +1,5 @@
 import type { Transaction } from "../types/transaction";
+import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { deleteTransaction } from "../api/transactions";
 import SummaryCards from "../components/dashboard/SummaryCards";
@@ -10,43 +11,53 @@ type Props = {
   transactions: Transaction[];
   onRefresh: () => void;
 };
-type ChartData = {
-  name: string;
-  value: number;
-};
 
 export default function Dashboard({ transactions, onRefresh }: Props) {
-  const totalIncome = transactions
-    .filter((t) => t.type === 1)
-    .reduce((acc, t) => acc + t.amount, 0);
+  const { totalIncome, totalExpenses, balance } = useMemo(() => {
+    const income = transactions
+      .filter((t) => t.type === 1)
+      .reduce((acc, t) => acc + t.amount, 0);
 
-  const totalExpenses = transactions
-    .filter((t) => t.type === 0)
-    .reduce((acc, t) => acc + t.amount, 0);
+    const expenses = transactions
+      .filter((t) => t.type === 0)
+      .reduce((acc, t) => acc + t.amount, 0);
 
-  const balance = totalIncome - totalExpenses;
+    return {
+      totalIncome: income,
+      totalExpenses: expenses,
+      balance: income - expenses,
+    };
+  }, [transactions]);
 
-  const categoryTotals: Record<string, number> = {};
+  const categoryTotals = useMemo(() => {
+    const totals: Record<string, number> = {};
 
-  transactions.forEach((t) => {
-    categoryTotals[t.category] = (categoryTotals[t.category] || 0) + t.amount;
-  });
-  const chartData: ChartData[] = Object.entries(categoryTotals).map(
-    ([category, total]: [string, number]) => ({
+    transactions.forEach((t) => {
+      totals[t.category] = (totals[t.category] || 0) + t.amount;
+    });
+
+    return totals;
+  }, [transactions]);
+  const chartData = useMemo(() => {
+    return Object.entries(categoryTotals).map(([category, total]) => ({
       name: category,
       value: total,
-    }),
-  );
+    }));
+  }, [categoryTotals]);
 
-  let topCategory = "";
-  let topAmount = 0;
+  const topCategory = useMemo(() => {
+    let top = "";
+    let max = 0;
 
-  Object.entries(categoryTotals).forEach(([category, total]) => {
-    if (total > topAmount) {
-      topCategory = category;
-      topAmount = total;
-    }
-  });
+    Object.entries(categoryTotals).forEach(([category, total]) => {
+      if (total > max) {
+        top = category;
+        max = total;
+      }
+    });
+
+    return top;
+  }, [categoryTotals]);
 
   const insights: string[] = [];
   if (balance < 0) {
