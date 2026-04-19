@@ -4,9 +4,7 @@ import Goals from "./pages/Goals";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import NotFound from "./pages/NotFound";
-import type { Transaction } from "./types/transaction";
-import { useState, useEffect } from "react";
-import { getTransactions } from "./api/transactions";
+import { useTransactions } from "./hooks/useTransactions";
 
 function Layout() {
   return (
@@ -21,17 +19,9 @@ function Layout() {
 }
 
 function App() {
-  const [transactions, setTransactions] = useState<Transaction[]>([]);
-
-  const loadTransactions = async () => {
-    const data = await getTransactions();
-    setTransactions(data);
-  };
-
-  useEffect(() => {
-    loadTransactions();
-  }, []);
-
+  const { transactions, loading, error, refetch } = useTransactions();
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>{error}</p>;
   return (
     <BrowserRouter>
       <Routes>
@@ -39,17 +29,11 @@ function App() {
           <Route
             path="/"
             element={
-              <Dashboard
-                transactions={transactions}
-                onRefresh={loadTransactions}
-              />
+              <Dashboard transactions={transactions} onRefresh={refetch} />
             }
           />
 
-          <Route
-            path="add"
-            element={<AddTransaction onSuccess={loadTransactions} />}
-          />
+          <Route path="add" element={<AddTransaction onSuccess={refetch} />} />
 
           <Route path="goals" element={<Goals />} />
 
