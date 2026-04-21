@@ -39,21 +39,30 @@ export default function AddTransaction({ onSuccess }: Props) {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <Toast message="Transaction added successfully!" isVisible={showToast} />
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="bg-background min-h-screen p-6">
+        <Toast
+          message="Transaction added successfully!"
+          isVisible={showToast}
+        />
 
-      <TransactionForm
-        amount={amount}
-        setAmount={setAmount}
-        category={category}
-        setCategory={setCategory}
-        type={type}
-        setType={setType}
-        date={date}
-        setDate={setDate}
-        onSubmit={handleSubmit}
-        loading={loading}
-      />
+        <TransactionForm
+          amount={amount}
+          setAmount={setAmount}
+          category={category}
+          setCategory={setCategory}
+          type={type}
+          setType={setType}
+          date={date}
+          setDate={setDate}
+          onSubmit={handleSubmit}
+          loading={loading}
+        />
+      </div>
     </motion.div>
   );
 }
