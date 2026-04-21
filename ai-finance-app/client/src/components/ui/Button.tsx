@@ -21,7 +21,7 @@ export default function Button({
     "px-4 py-2 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed";
 
   const styles = {
-    primary: "bg-lime-400 text-black",
+    primary: "bg-primary text-black",
     danger: "bg-red-500 text-white",
   };
 

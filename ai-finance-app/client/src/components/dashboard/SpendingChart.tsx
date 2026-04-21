@@ -5,7 +5,7 @@ type Props = {
   data: { name: string; value: number }[];
 };
 
-const COLORS = ["#84cc16", "#f87171", "#60a5fa", "#facc15"];
+const COLORS = ["#84cc16", "#ef4444", "#3b82f6", "#eab308"];
 
 export default function SpendingChart({ data }: Props) {
   return (
@@ -13,9 +13,9 @@ export default function SpendingChart({ data }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.4 }}
-      className="bg-white p-5 rounded-2xl shadow-sm"
+      className="bg-surface p-5 rounded-2xl shadow-sm"
     >
-      <h3 className="text-sm text-gray-500 mb-4">Spending by Category</h3>
+      <h3 className="text-sm text-muted mb-4">Spending by Category</h3>
 
       <div className="flex justify-center">
         <PieChart width={250} height={250}>

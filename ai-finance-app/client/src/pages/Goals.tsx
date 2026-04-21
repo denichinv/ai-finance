@@ -21,7 +21,7 @@ export default function Goals() {
           <motion.button
             whileTap={{ scale: 0.95 }}
             whileHover={{ scale: 1.02 }}
-            className="w-full bg-lime-400 text-black py-2 rounded-lg"
+            className="w-full bg-primary text-black py-2 rounded-lg"
           >
             Add Transaction
           </motion.button>

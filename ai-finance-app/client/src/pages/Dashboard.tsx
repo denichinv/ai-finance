@@ -82,10 +82,14 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
   };
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
-      <div className="bg-gray-100 min-h-screen">
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.4 }}
+    >
+      <div className="bg-background min-h-screen">
         <div className="max-w-7xl mx-auto p-6">
-          <h1 className="text-2xl font-semibold mb-6">Dashboard</h1>
+          <h1 className="text-2xl font-semibold text-text mb-6">Dashboard</h1>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
             {/* LEFT */}
