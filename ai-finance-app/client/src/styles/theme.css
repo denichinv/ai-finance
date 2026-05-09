@@ -1,0 +1,53 @@
+:root {
+  /* surfaces */
+  --color-bg-app: 248 250 252;
+  --color-bg-surface: 255 255 255;
+  --color-bg-elevated: 241 245 249;
+
+  /* text */
+  --color-text-primary: 15 23 42;
+  --color-text-secondary: 71 85 105;
+  --color-text-muted: 148 163 184;
+
+  /* borders */
+  --color-border-default: 226 232 240;
+
+  /* accents */
+  --color-accent-primary: 132 204 22;
+  --color-accent-primary-hover: 101 163 13;
+
+  /* status */
+  --color-status-danger: 239 68 68;
+
+  /* nav */
+  --color-nav-bg: 15 23 42;
+  --color-nav-hover: 30 41 59;
+  --color-nav-active: 51 65 85;
+}
+
+.dark {
+  /* surfaces */
+  --color-bg-app: 2 6 23;
+  --color-bg-surface: 15 23 42;
+  --color-bg-elevated: 30 41 59;
+
+  /* text */
+  --color-text-primary: 248 250 252;
+  --color-text-secondary: 203 213 225;
+  --color-text-muted: 148 163 184;
+
+  /* borders */
+  --color-border-default: 51 65 85;
+
+  /* accents */
+  --color-accent-primary: 132 204 22;
+  --color-accent-primary-hover: 101 163 13;
+
+  /* status */
+  --color-status-danger: 248 113 113;
+
+  /* nav */
+  --color-nav-bg: 2 6 23;
+  --color-nav-hover: 30 41 59;
+  --color-nav-active: 51 65 85;
+}

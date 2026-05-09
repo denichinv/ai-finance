@@ -11,21 +11,33 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
 
   return (
-    <section className="bg-surface rounded-2xl shadow-sm overflow-hidden">
+    <section className="bg-surface dark:bg-gray-900 border border-border dark:border-gray-800 rounded-2xl shadow-sm overflow-hidden transition-colors">
       {/* HEADER */}
-      <div className="p-5 border-b border-border">
-        <h2 className="text-lg font-semibold text-text">Transactions</h2>
+      <div className="p-5 border-b border-border dark:border-gray-800">
+        <h2 className="text-lg font-semibold text-text dark:text-white">
+          Transactions
+        </h2>
       </div>
 
       <table className="w-full text-sm">
         {/* HEAD */}
-        <thead className="bg-background">
+        <thead className="bg-background dark:bg-gray-950">
           <tr>
-            <th className="p-4 text-left text-muted">Category</th>
-            <th className="p-4 text-left text-muted">Amount</th>
-            <th className="p-4 text-left text-muted">Type</th>
-            <th className="p-4 text-left text-muted">Date</th>
-            <th className="p-4 text-left text-muted">Action</th>
+            <th className="p-4 text-left text-muted dark:text-gray-400">
+              Category
+            </th>
+            <th className="p-4 text-left text-muted dark:text-gray-400">
+              Amount
+            </th>
+            <th className="p-4 text-left text-muted dark:text-gray-400">
+              Type
+            </th>
+            <th className="p-4 text-left text-muted dark:text-gray-400">
+              Date
+            </th>
+            <th className="p-4 text-left text-muted dark:text-gray-400">
+              Action
+            </th>
           </tr>
         </thead>
 
@@ -36,13 +48,13 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
               key={t.id}
               onHoverStart={() => setHoveredId(t.id)}
               onHoverEnd={() => setHoveredId(null)}
-              className="border-t border-border hover:bg-background transition-colors"
+              className="border-t border-border dark:border-gray-800 hover:bg-background dark:hover:bg-gray-800 transition-colors"
             >
               {/* CATEGORY */}
-              <td className="p-4 text-text">{t.category}</td>
+              <td className="p-4 text-text dark:text-white">{t.category}</td>
 
               {/* AMOUNT */}
-              <td className="p-4 font-medium text-text">
+              <td className="p-4 font-medium text-text dark:text-white">
                 £{t.amount.toFixed(2)}
               </td>
 
@@ -60,7 +72,7 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
               </td>
 
               {/* DATE */}
-              <td className="p-4 text-muted">
+              <td className="p-4 text-muted dark:text-gray-400">
                 {new Date(t.date).toLocaleDateString()}
               </td>
 
