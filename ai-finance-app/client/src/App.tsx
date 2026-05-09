@@ -8,10 +8,10 @@ import { useTransactions } from "./hooks/useTransactions";
 
 function Layout() {
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="flex min-h-screen bg-white dark:bg-gray-950 transition-colors duration-300">
       <Navbar />
 
-      <main className="flex-1 p-6">
+      <main className="flex-1 p-6 text-gray-900 dark:text-white">
         <Outlet />
       </main>
     </div>
@@ -20,8 +20,11 @@ function Layout() {
 
 function App() {
   const { transactions, loading, error, refetch } = useTransactions();
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>{error}</p>;
+
+  if (loading)
+    return <p className="text-gray-900 dark:text-white">Loading...</p>;
+  if (error) return <p className="text-red-600 dark:text-red-400">{error}</p>;
+
   return (
     <BrowserRouter>
       <Routes>

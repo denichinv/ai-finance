@@ -38,6 +38,7 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
 
     return totals;
   }, [transactions]);
+
   const chartData = useMemo(() => {
     return Object.entries(categoryTotals).map(([category, total]) => ({
       name: category,
@@ -60,6 +61,7 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
   }, [categoryTotals]);
 
   const insights: string[] = [];
+
   if (balance < 0) {
     insights.push("You are spending more than you earn.");
   } else if (balance > 0) {
@@ -86,32 +88,30 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
+      className="max-w-7xl mx-auto p-6"
     >
-      <div className="bg-background min-h-screen">
-        <div className="max-w-7xl mx-auto p-6">
-          <h1 className="text-2xl font-semibold text-text mb-6">Dashboard</h1>
+      <h1 className="text-2xl font-semibold text-text dark:text-white mb-6">
+        Dashboard
+      </h1>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* LEFT */}
-            <div className="lg:col-span-1 space-y-6">
-              <SummaryCards
-                income={totalIncome}
-                expenses={totalExpenses}
-                balance={balance}
-              />
-              <SpendingChart data={chartData} />
-            </div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        <div className="lg:col-span-1 space-y-6">
+          <SummaryCards
+            income={totalIncome}
+            expenses={totalExpenses}
+            balance={balance}
+          />
 
-            {/* RIGHT */}
-            <div className="lg:col-span-2 space-y-6">
-              <InsightsPanel insights={insights} />
+          <SpendingChart data={chartData} />
+        </div>
 
-              <TransactionTable
-                transactions={transactions}
-                onDelete={handleDelete}
-              />
-            </div>
-          </div>
+        <div className="lg:col-span-2 space-y-6">
+          <InsightsPanel insights={insights} />
+
+          <TransactionTable
+            transactions={transactions}
+            onDelete={handleDelete}
+          />
         </div>
       </div>
     </motion.div>

@@ -1,3 +1,4 @@
+@import "./styles/theme.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -12,10 +13,9 @@
 /* Base */
 body {
   font-family: system-ui, Arial, sans-serif;
-  background-color: #f5f7fa;
-  color: #111;
+  background-color: rgb(var(--color-bg-app));
+  color: rgb(var(--color-text-primary));
 }
-
 /* Links */
 a {
   text-decoration: none;

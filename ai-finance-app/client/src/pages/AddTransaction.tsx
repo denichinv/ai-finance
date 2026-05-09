@@ -31,7 +31,6 @@ export default function AddTransaction({ onSuccess }: Props) {
       date: new Date(date).toISOString(),
     });
 
-    // reset form
     setAmount("");
     setCategory("");
     setType("expense");
@@ -43,26 +42,22 @@ export default function AddTransaction({ onSuccess }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
+      className="p-6"
     >
-      <div className="bg-background min-h-screen p-6">
-        <Toast
-          message="Transaction added successfully!"
-          isVisible={showToast}
-        />
+      <Toast message="Transaction added successfully!" isVisible={showToast} />
 
-        <TransactionForm
-          amount={amount}
-          setAmount={setAmount}
-          category={category}
-          setCategory={setCategory}
-          type={type}
-          setType={setType}
-          date={date}
-          setDate={setDate}
-          onSubmit={handleSubmit}
-          loading={loading}
-        />
-      </div>
+      <TransactionForm
+        amount={amount}
+        setAmount={setAmount}
+        category={category}
+        setCategory={setCategory}
+        type={type}
+        setType={setType}
+        date={date}
+        setDate={setDate}
+        onSubmit={handleSubmit}
+        loading={loading}
+      />
     </motion.div>
   );
 }

@@ -1,17 +1,16 @@
 export default {
+  darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
 
   theme: {
     extend: {
       colors: {
-        // 🎯 Core palette
         primary: "#84cc16",
         "primary-hover": "#65a30d",
 
         danger: "#ef4444",
         "danger-hover": "#dc2626",
 
-        // 🎯 UI system
         background: "#f3f4f6",
         surface: "#ffffff",
 

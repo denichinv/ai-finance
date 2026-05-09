@@ -1,4 +1,11 @@
-import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
 import { motion } from "framer-motion";
 
 type Props = {
@@ -13,9 +20,11 @@ export default function SpendingChart({ data }: Props) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ delay: 0.4 }}
-      className="bg-surface p-5 rounded-2xl shadow-sm"
+      className="bg-white dark:bg-gray-900 p-5 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 transition-colors"
     >
-      <h3 className="text-sm text-muted mb-4">Spending by Category</h3>
+      <h3 className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+        Spending by Category
+      </h3>
 
       <div className="flex justify-center">
         <PieChart width={250} height={250}>
@@ -24,15 +33,26 @@ export default function SpendingChart({ data }: Props) {
             dataKey="value"
             nameKey="name"
             outerRadius={80}
-            label
+            label={{ fill: "#6b7280" }}
           >
             {data.map((_, index) => (
               <Cell key={index} fill={COLORS[index % COLORS.length]} />
             ))}
           </Pie>
 
-          <Tooltip />
-          <Legend verticalAlign="bottom" height={36} />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "#1f2937",
+              border: "1px solid #374151",
+              borderRadius: "8px",
+              color: "#f3f4f6",
+            }}
+          />
+          <Legend
+            verticalAlign="bottom"
+            height={36}
+            wrapperStyle={{ color: "#6b7280" }}
+          />
         </PieChart>
       </div>
     </motion.section>

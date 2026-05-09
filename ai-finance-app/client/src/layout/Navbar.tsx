@@ -1,23 +1,38 @@
 import { Link, useLocation } from "react-router-dom";
-import { LayoutDashboard, PlusCircle, Target } from "lucide-react";
+import { LayoutDashboard, PlusCircle, Target, Sun, Moon } from "lucide-react";
+import { useTheme } from "../hooks/useTheme";
 
 export default function Navbar() {
+  const { isDark, toggle } = useTheme();
   const location = useLocation();
 
   const linkClasses = (path: string) =>
-    `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium ${
+    `flex items-center gap-3 px-4 py-2 rounded-md text-sm font-medium transition-colors ${
       location.pathname === path
-        ? "bg-[#111827] text-white"
-        : "text-gray-400 hover:bg-lime-400 hover:text-black"
+        ? "bg-lime-500 text-black"
+        : "text-gray-400 hover:bg-gray-700"
     }`;
 
   return (
-    <aside className="w-64 bg-black text-white p-5 min-h-screen">
-      {/* LOGO */}
-      <h1 className="text-lg font-semibold mb-8">SpendWise</h1>
+    <aside className="w-64 bg-gray-900 text-white p-5 min-h-screen">
+      {/* HEADER */}
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-lg font-semibold">SpendWise</h1>
+        <button
+          onClick={toggle}
+          className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
+          aria-label="Toggle theme"
+        >
+          {isDark ? (
+            <Sun size={18} className="text-yellow-400" />
+          ) : (
+            <Moon size={18} className="text-gray-300" />
+          )}
+        </button>
+      </div>
 
       {/* MENU BOX */}
-      <div className="bg-[#0b0f19] p-2 rounded-md">
+      <div className="bg-gray-800 p-2 rounded-md">
         <nav className="flex flex-col gap-1">
           <Link to="/" className={linkClasses("/")}>
             <LayoutDashboard size={18} />
