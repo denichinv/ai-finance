@@ -14,7 +14,7 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
     <section className="bg-surface dark:bg-gray-900 border border-border dark:border-gray-800 rounded-2xl shadow-sm overflow-hidden transition-colors">
       {/* HEADER */}
       <div className="p-5 border-b border-border dark:border-gray-800">
-        <h2 className="text-lg font-semibold text-text dark:text-white">
+        <h2 className="text-xl font-semibold tracking-tight text-text dark:text-white">
           Transactions
         </h2>
       </div>
@@ -23,19 +23,19 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
         {/* HEAD */}
         <thead className="bg-background dark:bg-gray-950">
           <tr>
-            <th className="p-4 text-left text-muted dark:text-gray-400">
+            <th className="p-4 text-left text-muted dark:text-gray-400 font-medium">
               Category
             </th>
-            <th className="p-4 text-left text-muted dark:text-gray-400">
+            <th className="p-4 text-left text-muted dark:text-gray-400 font-medium">
               Amount
             </th>
-            <th className="p-4 text-left text-muted dark:text-gray-400">
+            <th className="p-4 text-left text-muted dark:text-gray-400 font-medium">
               Type
             </th>
-            <th className="p-4 text-left text-muted dark:text-gray-400">
+            <th className="p-4 text-left text-muted dark:text-gray-400 font-medium">
               Date
             </th>
-            <th className="p-4 text-left text-muted dark:text-gray-400">
+            <th className="p-4 text-left text-muted dark:text-gray-400 font-medium">
               Action
             </th>
           </tr>
@@ -54,7 +54,7 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
               <td className="p-4 text-text dark:text-white">{t.category}</td>
 
               {/* AMOUNT */}
-              <td className="p-4 font-medium text-text dark:text-white">
+              <td className="p-4 font-mono font-medium tracking-tight text-text dark:text-white">
                 £{t.amount.toFixed(2)}
               </td>
 

@@ -22,7 +22,7 @@ export default function SpendingChart({ data }: Props) {
       transition={{ delay: 0.4 }}
       className="bg-white dark:bg-gray-900 p-5 rounded-2xl shadow-sm border border-gray-200 dark:border-gray-800 transition-colors"
     >
-      <h3 className="text-sm text-gray-500 dark:text-gray-400 mb-4">
+      <h3 className="text-xl font-semibold tracking-tight text-gray-700 dark:text-gray-200 mb-4">
         Spending by Category
       </h3>
 
@@ -48,10 +48,15 @@ export default function SpendingChart({ data }: Props) {
               color: "#f3f4f6",
             }}
           />
+
           <Legend
             verticalAlign="bottom"
             height={36}
-            wrapperStyle={{ color: "#6b7280" }}
+            wrapperStyle={{
+              color: "#6b7280",
+              fontFamily: "Outfit",
+              fontSize: "14px",
+            }}
           />
         </PieChart>
       </div>

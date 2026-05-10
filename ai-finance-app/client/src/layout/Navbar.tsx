@@ -17,7 +17,8 @@ export default function Navbar() {
     <aside className="w-64 bg-gray-900 text-white p-5 min-h-screen">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-lg font-semibold">SpendWise</h1>
+        <h1 className="text-xl font-semibold tracking-tight">SpendWise</h1>
+
         <button
           onClick={toggle}
           className="p-2 rounded-lg hover:bg-gray-700 transition-colors"
