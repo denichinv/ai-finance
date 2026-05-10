@@ -17,7 +17,10 @@ export default function Navbar() {
     <aside className="w-64 bg-gray-900 text-white p-5 min-h-screen">
       {/* HEADER */}
       <div className="flex items-center justify-between mb-8">
-        <h1 className="text-xl font-semibold tracking-tight">SpendWise</h1>
+        <h1 className="text-xl font-semibold tracking-tight">
+          <span className="text-primary">S</span>pend
+          <span className="ml-0.5 text-primary">W</span>ise
+        </h1>
 
         <button
           onClick={toggle}
