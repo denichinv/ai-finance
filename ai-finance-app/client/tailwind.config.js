@@ -22,6 +22,11 @@ export default {
         "sidebar-hover": "#1f2937",
       },
 
+      fontFamily: {
+        sans: ["Outfit", "sans-serif"],
+        mono: ["DM Mono", "monospace"],
+      },
+
       borderRadius: {
         lg: "0.75rem",
         xl: "1rem",

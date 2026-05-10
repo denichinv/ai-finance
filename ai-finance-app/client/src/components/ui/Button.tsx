@@ -18,7 +18,7 @@ export default function Button({
   disabled = false,
 }: Props) {
   const base =
-    "px-4 py-2 rounded-lg font-medium transition disabled:opacity-50 disabled:cursor-not-allowed";
+    "px-4 py-2 rounded-lg text-sm font-medium tracking-tight transition disabled:opacity-50 disabled:cursor-not-allowed";
 
   const styles = {
     primary: "bg-primary text-black",

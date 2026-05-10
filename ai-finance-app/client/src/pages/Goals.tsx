@@ -9,7 +9,7 @@ export default function Goals() {
       className="p-6"
     >
       <div className="max-w-md mx-auto bg-white dark:bg-gray-900 rounded-2xl shadow-sm p-6 border border-gray-200 dark:border-gray-800 transition-colors">
-        <h1 className="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white mb-2">
           Financial Goals
         </h1>
 
@@ -21,7 +21,7 @@ export default function Goals() {
         <motion.button
           whileTap={{ scale: 0.95 }}
           whileHover={{ scale: 1.02 }}
-          className="w-full bg-primary hover:bg-primary-hover text-black py-2 rounded-lg transition-colors"
+          className="w-full bg-primary hover:bg-primary-hover text-black text-sm font-medium py-2 rounded-lg transition-colors"
         >
           Add Goal
         </motion.button>
