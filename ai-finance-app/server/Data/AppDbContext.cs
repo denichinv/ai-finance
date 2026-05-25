@@ -11,6 +11,7 @@ public class AppDbContext : DbContext
 
     public DbSet<Transaction> Transactions => Set<Transaction>();
     public DbSet<Goal> Goals => Set<Goal>();
+    public DbSet<User> Users { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
