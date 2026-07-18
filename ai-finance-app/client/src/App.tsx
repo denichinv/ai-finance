@@ -4,7 +4,9 @@ import Goals from "./pages/Goals";
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom";
 import Navbar from "./layout/Navbar";
 import NotFound from "./pages/NotFound";
-import { useTransactions } from "./hooks/useTransactions";
+import LoginPage from "./features/auth/pages/LoginPage";
+import { useTheme } from "./hooks/useTheme";
+import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 
 function Layout() {
   return (
@@ -19,28 +21,23 @@ function Layout() {
 }
 
 function App() {
-  const { transactions, loading, error, refetch } = useTransactions();
-
-  if (loading)
-    return <p className="text-gray-900 dark:text-white">Loading...</p>;
-  if (error) return <p className="text-red-600 dark:text-red-400">{error}</p>;
+  useTheme();
 
   return (
     <BrowserRouter>
       <Routes>
-        <Route element={<Layout />}>
-          <Route
-            path="/"
-            element={
-              <Dashboard transactions={transactions} onRefresh={refetch} />
-            }
-          />
+        <Route path="/login" element={<LoginPage />} />
 
-          <Route path="add" element={<AddTransaction onSuccess={refetch} />} />
+        <Route element={<ProtectedRoute />}>
+          <Route element={<Layout />}>
+            <Route path="/" element={<Dashboard />} />
 
-          <Route path="goals" element={<Goals />} />
+            <Route path="add" element={<AddTransaction />} />
 
-          <Route path="*" element={<NotFound />} />
+            <Route path="goals" element={<Goals />} />
+
+            <Route path="*" element={<NotFound />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>

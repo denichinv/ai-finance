@@ -9,7 +9,7 @@ type TransactionInput = {
   date: string;
 };
 
-export function useCreateTransaction(onSuccess: () => void) {
+export function useCreateTransaction(onSuccess?: () => void) {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
@@ -18,7 +18,7 @@ export function useCreateTransaction(onSuccess: () => void) {
       setLoading(true);
 
       await createTransaction(data);
-      onSuccess();
+      onSuccess?.();
 
       setShowToast(true);
       setTimeout(() => setShowToast(false), 2500);

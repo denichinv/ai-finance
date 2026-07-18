@@ -1,4 +1,3 @@
-import type { Transaction } from "../types/transaction";
 import { useMemo } from "react";
 import { motion } from "framer-motion";
 import { deleteTransaction } from "../api/transactions";
@@ -6,13 +5,11 @@ import SummaryCards from "../components/dashboard/SummaryCards";
 import SpendingChart from "../components/dashboard/SpendingChart";
 import InsightsPanel from "../components/dashboard/InsightsPanel";
 import TransactionTable from "../components/dashboard/TransactionTable";
+import { useTransactions } from "../hooks/useTransactions";
 
-type Props = {
-  transactions: Transaction[];
-  onRefresh: () => void;
-};
+export default function Dashboard() {
+  const { transactions, loading, error, refetch } = useTransactions();
 
-export default function Dashboard({ transactions, onRefresh }: Props) {
   const { totalIncome, totalExpenses, balance } = useMemo(() => {
     const income = transactions
       .filter((t) => t.type === 1)
@@ -72,12 +69,20 @@ export default function Dashboard({ transactions, onRefresh }: Props) {
     insights.push(`You spend most of your money on ${topCategory}.`);
   }
 
+  if (loading) {
+    return <p className="p-6 text-gray-900 dark:text-white">Loading...</p>;
+  }
+
+  if (error) {
+    return <p className="p-6 text-red-600 dark:text-red-400">{error}</p>;
+  }
+
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this transaction?")) return;
 
     try {
       await deleteTransaction(id);
-      onRefresh();
+      refetch();
     } catch (err) {
       console.error(err);
     }

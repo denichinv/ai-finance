@@ -4,17 +4,13 @@ import Toast from "../components/ui/Toast";
 import TransactionForm from "../components/transactions/TransactionForm";
 import { useCreateTransaction } from "../hooks/useCreateTransaction";
 
-type Props = {
-  onSuccess: () => void;
-};
-
-export default function AddTransaction({ onSuccess }: Props) {
+export default function AddTransaction() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
   const [date, setDate] = useState("");
 
-  const { handleCreate, loading, showToast } = useCreateTransaction(onSuccess);
+  const { handleCreate, loading, showToast } = useCreateTransaction();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
