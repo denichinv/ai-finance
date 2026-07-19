@@ -1,7 +1,12 @@
+import type {
+  CreateTransactionRequest,
+  Transaction,
+} from "../types/transaction";
+
 const API_URL = "http://localhost:5118/api/Transactions";
 
 // GET all transactions
-export const getTransactions = async () => {
+export const getTransactions = async (): Promise<Transaction[]> => {
   const response = await fetch(API_URL);
 
   if (!response.ok) {
@@ -12,7 +17,9 @@ export const getTransactions = async () => {
 };
 
 // CREATE transaction
-export const createTransaction = async (data: any) => {
+export const createTransaction = async (
+  data: CreateTransactionRequest,
+): Promise<Transaction> => {
   const response = await fetch(API_URL, {
     method: "POST",
     headers: {

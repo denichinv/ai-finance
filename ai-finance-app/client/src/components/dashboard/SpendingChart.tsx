@@ -4,7 +4,6 @@ import {
   Cell,
   Tooltip,
   Legend,
-  ResponsiveContainer,
 } from "recharts";
 import { motion } from "framer-motion";
 

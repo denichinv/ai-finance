@@ -1,9 +1,14 @@
-type TransactionType = 0 | 1;
+export type TransactionType = 0 | 1;
 
-export type Transaction = {
-  id: string;
+export type CreateTransactionRequest = {
+  title: string;
   amount: number;
-  category: string;
   type: TransactionType;
+  category: string;
   date: string;
+};
+
+export type Transaction = CreateTransactionRequest & {
+  id: string;
+  createdAt: string;
 };

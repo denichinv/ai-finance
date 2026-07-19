@@ -1,19 +1,12 @@
 import { useState } from "react";
 import { createTransaction } from "../api/transactions";
-
-type TransactionInput = {
-  title: string;
-  amount: number;
-  category: string;
-  type: number;
-  date: string;
-};
+import type { CreateTransactionRequest } from "../types/transaction";
 
 export function useCreateTransaction(onSuccess?: () => void) {
   const [loading, setLoading] = useState(false);
   const [showToast, setShowToast] = useState(false);
 
-  const handleCreate = async (data: TransactionInput) => {
+  const handleCreate = async (data: CreateTransactionRequest) => {
     try {
       setLoading(true);
 
