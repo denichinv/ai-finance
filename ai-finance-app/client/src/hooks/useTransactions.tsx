@@ -12,7 +12,7 @@ export function useTransactions() {
       setLoading(true);
       const data = await getTransactions();
       setTransactions(data);
-    } catch (err) {
+    } catch {
       setError("Failed to load transactions");
     } finally {
       setLoading(false);
