@@ -1,7 +1,7 @@
-import { motion } from "framer-motion";
 import { useState, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../../../components/ui/Button";
+import AuthPageLayout from "../components/AuthPageLayout";
 import { useAuth } from "../hooks/useAuth";
 
 export default function LoginPage() {
@@ -28,20 +28,10 @@ export default function LoginPage() {
   };
 
   return (
-    <main className="flex min-h-screen items-center justify-center bg-white px-6 py-8 dark:bg-gray-950">
-      <motion.section
-        initial={{ opacity: 0, y: 16 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-        className="w-full max-w-md rounded-2xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
-      >
-        <h1 className="text-2xl font-semibold tracking-tight text-gray-900 dark:text-white">
-          Welcome back
-        </h1>
-
-        <p className="mt-2 text-sm leading-relaxed text-gray-500 dark:text-gray-400">
-          Log in to manage your SpendWise account.
-        </p>
+    <AuthPageLayout
+      description="Log in to manage your SpendWise account."
+      title="Welcome back"
+    >
 
         {error && (
           <p
@@ -93,7 +83,6 @@ export default function LoginPage() {
             {isSubmitting ? "Logging in..." : "Log in"}
           </Button>
         </form>
-      </motion.section>
-    </main>
+    </AuthPageLayout>
   );
 }
