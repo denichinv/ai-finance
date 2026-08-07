@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Button from "../../../components/ui/Button";
 import AuthPageLayout from "../components/AuthPageLayout";
 import { useAuth } from "../hooks/useAuth";
@@ -83,6 +83,13 @@ export default function LoginPage() {
             {isSubmitting ? "Logging in..." : "Log in"}
           </Button>
         </form>
+
+        <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+          New to SpendWise?{" "}
+          <Link className="font-medium text-primary hover:text-primary-hover" to="/register">
+            Create an account
+          </Link>
+        </p>
     </AuthPageLayout>
   );
 }
