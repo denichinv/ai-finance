@@ -24,7 +24,7 @@ export default function NotFound() {
         </p>
 
         <Button>
-          <Link to="/">Go back to Dashboard</Link>
+          <Link to="/dashboard">Go back to Dashboard</Link>
         </Button>
       </div>
     </motion.div>

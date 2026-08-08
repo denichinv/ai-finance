@@ -47,7 +47,7 @@ export default function Navbar() {
       {/* MENU BOX */}
       <div className="bg-gray-800 p-2 rounded-md">
         <nav className="flex flex-col gap-1">
-          <Link to="/" className={linkClasses("/")}>
+          <Link to="/dashboard" className={linkClasses("/dashboard")}>
             <LayoutDashboard size={18} />
             Dashboard
           </Link>
