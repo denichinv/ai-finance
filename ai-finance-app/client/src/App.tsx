@@ -9,6 +9,7 @@ import RegisterPage from "./features/auth/pages/RegisterPage";
 import { useTheme } from "./hooks/useTheme";
 import ProtectedRoute from "./features/auth/components/ProtectedRoute";
 import DecorativeBackground from "./components/ui/DecorativeBackground";
+import LandingPage from "./features/landing/pages/LandingPage";
 
 function Layout() {
   return (
@@ -31,12 +32,13 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
 
         <Route element={<ProtectedRoute />}>
           <Route element={<Layout />}>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
 
             <Route path="add" element={<AddTransaction />} />
 

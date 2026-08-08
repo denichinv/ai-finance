@@ -19,7 +19,7 @@ export default function LoginPage() {
       setError(null);
       setIsSubmitting(true);
       await login({ email, password });
-      navigate("/", { replace: true });
+      navigate("/dashboard", { replace: true });
     } catch (error) {
       setError(error instanceof Error ? error.message : "Unable to log in");
     } finally {
