@@ -3,11 +3,13 @@ import type {
   Transaction,
 } from "../types/transaction";
 
-const API_URL = "http://localhost:5118/api/Transactions";
+import { authenticatedFetch } from "./apiClient";
+
+const TRANSACTIONS_PATH = "/Transactions";
 
 // GET all transactions
 export const getTransactions = async (): Promise<Transaction[]> => {
-  const response = await fetch(API_URL);
+  const response = await authenticatedFetch(TRANSACTIONS_PATH);
 
   if (!response.ok) {
     throw new Error("Failed to fetch transactions");
@@ -20,7 +22,7 @@ export const getTransactions = async (): Promise<Transaction[]> => {
 export const createTransaction = async (
   data: CreateTransactionRequest,
 ): Promise<Transaction> => {
-  const response = await fetch(API_URL, {
+  const response = await authenticatedFetch(TRANSACTIONS_PATH, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -37,7 +39,7 @@ export const createTransaction = async (
 
 // DELETE transaction
 export const deleteTransaction = async (id: string) => {
-  const response = await fetch(`${API_URL}/${id}`, {
+  const response = await authenticatedFetch(`${TRANSACTIONS_PATH}/${id}`, {
     method: "DELETE",
   });
 
