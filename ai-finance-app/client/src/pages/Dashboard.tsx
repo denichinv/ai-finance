@@ -6,6 +6,9 @@ import SpendingChart from "../components/dashboard/SpendingChart";
 import InsightsPanel from "../components/dashboard/InsightsPanel";
 import TransactionTable from "../components/dashboard/TransactionTable";
 import { useTransactions } from "../hooks/useTransactions";
+import { WalletCards } from "lucide-react";
+import { Link } from "react-router-dom";
+import EmptyState from "../components/ui/EmptyState";
 
 export default function Dashboard() {
   const { transactions, loading, error, refetch } = useTransactions();
@@ -88,12 +91,40 @@ export default function Dashboard() {
     }
   };
 
+  if (transactions.length === 0) {
+    return (
+      <motion.div
+        animate={{ opacity: 1 }}
+        className="max-w-7xl mx-auto p-6"
+        initial={{ opacity: 0 }}
+      >
+        <h1 className="mb-6 text-3xl font-semibold tracking-tight text-text dark:text-white">
+          Dashboard
+        </h1>
+
+        <EmptyState
+          action={
+            <Link
+              className="inline-flex rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-slate-950 transition-transform hover:scale-[1.02] hover:bg-primary-hover"
+              to="/add"
+            >
+              Add your first transaction
+            </Link>
+          }
+          description="Start by adding a transaction to see your spending, income, and insights here."
+          icon={<WalletCards size={24} />}
+          title="Your financial workspace is ready"
+        />
+      </motion.div>
+    );
+  }
+
   return (
     <motion.div
-      initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      transition={{ duration: 0.4 }}
       className="max-w-7xl mx-auto p-6"
+      initial={{ opacity: 0 }}
+      transition={{ duration: 0.4 }}
     >
       <h1 className="text-3xl font-semibold tracking-tight text-text dark:text-white mb-6">
         Dashboard
