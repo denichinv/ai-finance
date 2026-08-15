@@ -9,6 +9,8 @@ import { useTransactions } from "../hooks/useTransactions";
 import { WalletCards } from "lucide-react";
 import { Link } from "react-router-dom";
 import EmptyState from "../components/ui/EmptyState";
+import ErrorState from "../components/ui/ErrorState";
+import DashboardSkeleton from "../components/dashboard/DashboardSkeleton";
 
 export default function Dashboard() {
   const { transactions, loading, error, refetch } = useTransactions();
@@ -73,11 +75,26 @@ export default function Dashboard() {
   }
 
   if (loading) {
-    return <p className="p-6 text-gray-900 dark:text-white">Loading...</p>;
+    return <DashboardSkeleton />;
   }
-
   if (error) {
-    return <p className="p-6 text-red-600 dark:text-red-400">{error}</p>;
+    return (
+      <motion.div
+        animate={{ opacity: 1 }}
+        className="max-w-7xl mx-auto p-6"
+        initial={{ opacity: 0 }}
+      >
+        <h1 className="mb-6 text-3xl font-semibold tracking-tight text-text dark:text-white">
+          Dashboard
+        </h1>
+
+        <ErrorState
+          description="We couldn't load your transactions. Check your connection and try again."
+          onRetry={refetch}
+          title="Unable to load your dashboard"
+        />
+      </motion.div>
+    );
   }
 
   const handleDelete = async (id: string) => {
