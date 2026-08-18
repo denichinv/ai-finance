@@ -11,17 +11,18 @@ import { Link } from "react-router-dom";
 import EmptyState from "../components/ui/EmptyState";
 import ErrorState from "../components/ui/ErrorState";
 import DashboardSkeleton from "../components/dashboard/DashboardSkeleton";
+import { TransactionType } from "../types/transaction";
 
 export default function Dashboard() {
   const { transactions, loading, error, refetch } = useTransactions();
 
   const { totalIncome, totalExpenses, balance } = useMemo(() => {
     const income = transactions
-      .filter((t) => t.type === 1)
+      .filter((t) => t.type === TransactionType.Income)
       .reduce((acc, t) => acc + t.amount, 0);
 
     const expenses = transactions
-      .filter((t) => t.type === 0)
+      .filter((t) => t.type === TransactionType.Expense)
       .reduce((acc, t) => acc + t.amount, 0);
 
     return {

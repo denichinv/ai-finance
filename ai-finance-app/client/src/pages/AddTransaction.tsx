@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import Toast from "../components/ui/Toast";
 import TransactionForm from "../components/transactions/TransactionForm";
 import { useCreateTransaction } from "../hooks/useCreateTransaction";
+import { TransactionType } from "../types/transaction";
 
 export default function AddTransaction() {
   const [amount, setAmount] = useState("");
@@ -23,7 +24,10 @@ export default function AddTransaction() {
       title: category,
       amount: Number(amount),
       category,
-      type: type === "expense" ? 0 : 1,
+      type:
+        type === "expense"
+          ? TransactionType.Expense
+          : TransactionType.Income,
       date: new Date(date).toISOString(),
     });
 

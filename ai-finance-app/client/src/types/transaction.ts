@@ -1,4 +1,10 @@
-export type TransactionType = 0 | 1;
+export const TransactionType = {
+  Income: 0,
+  Expense: 1,
+} as const;
+
+export type TransactionType =
+  (typeof TransactionType)[keyof typeof TransactionType];
 
 export type CreateTransactionRequest = {
   title: string;

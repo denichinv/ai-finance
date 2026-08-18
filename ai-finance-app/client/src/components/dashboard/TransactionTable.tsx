@@ -1,5 +1,8 @@
 import { AnimatePresence, motion } from "framer-motion";
-import type { Transaction } from "../../types/transaction";
+import {
+  TransactionType,
+  type Transaction,
+} from "../../types/transaction";
 import { useState } from "react";
 
 type Props = {
@@ -62,12 +65,12 @@ export default function TransactionTable({ transactions, onDelete }: Props) {
               <td className="p-4">
                 <span
                   className={`px-2 py-1 rounded-full text-xs font-medium ${
-                    t.type === 1
+                    t.type === TransactionType.Income
                       ? "bg-primary/20 text-primary"
                       : "bg-danger/20 text-danger"
                   }`}
                 >
-                  {t.type === 0 ? "Expense" : "Income"}
+                  {t.type === TransactionType.Income ? "Income" : "Expense"}
                 </span>
               </td>
 
