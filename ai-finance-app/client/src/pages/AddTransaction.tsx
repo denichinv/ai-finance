@@ -4,14 +4,22 @@ import Toast from "../components/ui/Toast";
 import TransactionForm from "../components/transactions/TransactionForm";
 import { useCreateTransaction } from "../hooks/useCreateTransaction";
 import { TransactionType } from "../types/transaction";
+import { getTodayDateKey } from "../utils/date";
 
 export default function AddTransaction() {
   const [amount, setAmount] = useState("");
   const [category, setCategory] = useState("");
   const [type, setType] = useState<"income" | "expense">("expense");
   const [date, setDate] = useState("");
+  const [dateError, setDateError] = useState<string | null>(null);
 
   const { handleCreate, loading, showToast } = useCreateTransaction();
+  const today = getTodayDateKey();
+
+  const handleDateChange = (nextDate: string) => {
+    setDate(nextDate);
+    setDateError(null);
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +27,10 @@ export default function AddTransaction() {
     if (!amount || Number(amount) <= 0) return;
     if (!category) return;
     if (!date) return;
+    if (date > today) {
+      setDateError("Transactions cannot be dated in the future.");
+      return;
+    }
 
     handleCreate({
       title: category,
@@ -35,6 +47,7 @@ export default function AddTransaction() {
     setCategory("");
     setType("expense");
     setDate("");
+    setDateError(null);
   };
 
   return (
@@ -54,7 +67,9 @@ export default function AddTransaction() {
         type={type}
         setType={setType}
         date={date}
-        setDate={setDate}
+        maxDate={today}
+        dateError={dateError}
+        onDateChange={handleDateChange}
         onSubmit={handleSubmit}
         loading={loading}
       />

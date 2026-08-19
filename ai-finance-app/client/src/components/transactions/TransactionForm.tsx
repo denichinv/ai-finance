@@ -9,7 +9,9 @@ type Props = {
   type: "income" | "expense";
   setType: React.Dispatch<React.SetStateAction<"income" | "expense">>;
   date: string;
-  setDate: React.Dispatch<React.SetStateAction<string>>;
+  maxDate: string;
+  dateError: string | null;
+  onDateChange: (date: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   loading: boolean;
 };
@@ -22,7 +24,9 @@ export default function TransactionForm({
   type,
   setType,
   date,
-  setDate,
+  maxDate,
+  dateError,
+  onDateChange,
   onSubmit,
   loading,
 }: Props) {
@@ -98,9 +102,15 @@ export default function TransactionForm({
             <input
               type="date"
               value={date}
-              onChange={(e) => setDate(e.target.value)}
+              max={maxDate}
+              onChange={(e) => onDateChange(e.target.value)}
               className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-colors"
             />
+            {dateError && (
+              <p className="mt-1 text-sm text-red-600 dark:text-red-400" role="alert">
+                {dateError}
+              </p>
+            )}
           </div>
 
           <Button type="submit" className="w-full" disabled={loading}>
