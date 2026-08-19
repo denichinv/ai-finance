@@ -32,15 +32,23 @@ export default function Dashboard() {
     };
   }, [transactions]);
 
+  const expenseTransactions = useMemo(
+    () =>
+      transactions.filter(
+        (transaction) => transaction.type === TransactionType.Expense,
+      ),
+    [transactions],
+  );
+
   const categoryTotals = useMemo(() => {
     const totals: Record<string, number> = {};
 
-    transactions.forEach((t) => {
+    expenseTransactions.forEach((t) => {
       totals[t.category] = (totals[t.category] || 0) + t.amount;
     });
 
     return totals;
-  }, [transactions]);
+  }, [expenseTransactions]);
 
   const chartData = useMemo(() => {
     return Object.entries(categoryTotals).map(([category, total]) => ({
