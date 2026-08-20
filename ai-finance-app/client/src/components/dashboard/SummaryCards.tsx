@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { AlertTriangle } from "lucide-react";
 
 type Props = {
   income: number;
@@ -7,6 +8,8 @@ type Props = {
 };
 
 export default function SummaryCards({ income, expenses, balance }: Props) {
+  const hasNegativeBalance = balance < 0;
+
   return (
     <section className="grid gap-4">
       {/* Income */}
@@ -40,13 +43,26 @@ export default function SummaryCards({ income, expenses, balance }: Props) {
       {/* Balance */}
       <motion.div
         whileHover={{ scale: 1.05 }}
-        className="bg-primary hover:bg-primary-hover p-5 rounded-2xl shadow-sm transition-colors"
+        className={`p-5 rounded-2xl shadow-sm transition-colors ${
+          hasNegativeBalance
+            ? "bg-red-500 text-white"
+            : "bg-primary hover:bg-primary-hover text-black"
+        }`}
       >
-        <p className="text-black text-sm font-medium">Balance</p>
+        <p className="text-sm font-medium">
+          {hasNegativeBalance ? "Overdrawn" : "Balance"}
+        </p>
 
-        <h3 className="text-3xl font-bold font-mono tracking-[-0.03em] text-black">
+        <h3 className="text-3xl font-bold font-mono tracking-[-0.03em]">
           £{balance.toFixed(2)}
         </h3>
+
+        {hasNegativeBalance && (
+          <p className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-white/90">
+            <AlertTriangle size={16} />
+            You are £{Math.abs(balance).toFixed(2)} below zero
+          </p>
+        )}
       </motion.div>
     </section>
   );
