@@ -3,24 +3,26 @@ import Button from "../ui/Button";
 
 type Props = {
   amount: string;
-  setAmount: React.Dispatch<React.SetStateAction<string>>;
+  onAmountChange: (amount: string) => void;
   category: string;
-  setCategory: React.Dispatch<React.SetStateAction<string>>;
+  onCategoryChange: (category: string) => void;
   type: "income" | "expense";
   setType: React.Dispatch<React.SetStateAction<"income" | "expense">>;
   date: string;
   maxDate: string;
-  dateError: string | null;
+  dateError?: string;
   onDateChange: (date: string) => void;
   onSubmit: (e: React.FormEvent) => void;
   loading: boolean;
+  amountError?: string;
+  categoryError?: string;
 };
 
 export default function TransactionForm({
   amount,
-  setAmount,
+  onAmountChange,
   category,
-  setCategory,
+  onCategoryChange,
   type,
   setType,
   date,
@@ -29,6 +31,8 @@ export default function TransactionForm({
   onDateChange,
   onSubmit,
   loading,
+  amountError,
+  categoryError,
 }: Props) {
   return (
     <div className="max-w-xl mx-auto">
@@ -56,10 +60,18 @@ export default function TransactionForm({
             <input
               type="number"
               value={amount}
-              onChange={(e) => setAmount(e.target.value)}
+              onChange={(e) => onAmountChange(e.target.value)}
               placeholder="e.g. 100"
               className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white font-mono border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-colors"
             />
+            {amountError && (
+              <p
+                className="mt-1 text-sm text-red-600 dark:text-red-400"
+                role="alert"
+              >
+                {amountError}
+              </p>
+            )}
           </div>
 
           {/* CATEGORY */}
@@ -71,10 +83,18 @@ export default function TransactionForm({
             <input
               type="text"
               value={category}
-              onChange={(e) => setCategory(e.target.value)}
+              onChange={(e) => onCategoryChange(e.target.value)}
               placeholder="e.g. Food, Salary"
               className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-colors"
             />
+            {categoryError && (
+              <p
+                className="mt-1 text-sm text-red-600 dark:text-red-400"
+                role="alert"
+              >
+                {categoryError}
+              </p>
+            )}
           </div>
 
           {/* TYPE */}
@@ -106,8 +126,12 @@ export default function TransactionForm({
               onChange={(e) => onDateChange(e.target.value)}
               className="w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-lime-400 transition-colors"
             />
+
             {dateError && (
-              <p className="mt-1 text-sm text-red-600 dark:text-red-400" role="alert">
+              <p
+                className="mt-1 text-sm text-red-600 dark:text-red-400"
+                role="alert"
+              >
                 {dateError}
               </p>
             )}
