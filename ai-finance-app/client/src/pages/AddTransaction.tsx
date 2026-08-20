@@ -19,7 +19,12 @@ export default function AddTransaction() {
   const [date, setDate] = useState("");
   const [errors, setErrors] = useState<TransactionFormErrors>({});
 
-  const { handleCreate, loading, showToast } = useCreateTransaction();
+  const {
+    handleCreate,
+    loading,
+    showToast,
+    error: submitError,
+  } = useCreateTransaction();
   const today = getTodayDateKey();
 
   const handleAmountChange = (nextAmount: string) => {
@@ -55,7 +60,7 @@ export default function AddTransaction() {
 
     return nextErrors;
   };
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const nextErrors = validateForm();
 
@@ -65,7 +70,7 @@ export default function AddTransaction() {
       return;
     }
 
-    handleCreate({
+    const wasCreated = await handleCreate({
       title: category,
       amount: Number(amount),
       category,
@@ -73,6 +78,10 @@ export default function AddTransaction() {
         type === "expense" ? TransactionType.Expense : TransactionType.Income,
       date: new Date(date).toISOString(),
     });
+
+    if (!wasCreated) {
+      return;
+    }
 
     setAmount("");
     setCategory("");
@@ -105,6 +114,7 @@ export default function AddTransaction() {
         loading={loading}
         amountError={errors.amount}
         categoryError={errors.category}
+        submitError={submitError}
       />
     </motion.div>
   );

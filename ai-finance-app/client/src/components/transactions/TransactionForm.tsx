@@ -16,6 +16,7 @@ type Props = {
   loading: boolean;
   amountError?: string;
   categoryError?: string;
+  submitError?: string | null;
 };
 
 export default function TransactionForm({
@@ -33,6 +34,7 @@ export default function TransactionForm({
   loading,
   amountError,
   categoryError,
+  submitError,
 }: Props) {
   return (
     <div className="max-w-xl mx-auto">
@@ -51,6 +53,15 @@ export default function TransactionForm({
         </p>
 
         <form className="space-y-4" onSubmit={onSubmit}>
+          {submitError && (
+            <div
+              className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700 dark:border-red-400/20 dark:bg-red-500/10 dark:text-red-300"
+              role="alert"
+            >
+              {submitError}
+            </div>
+          )}
+
           {/* AMOUNT */}
           <div>
             <label className="block text-sm font-medium text-gray-600 dark:text-gray-300 mb-1">
