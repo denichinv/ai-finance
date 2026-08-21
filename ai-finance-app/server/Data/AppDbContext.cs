@@ -36,6 +36,11 @@ public class AppDbContext : DbContext
             entity.Property(g => g.Title).IsRequired().HasMaxLength(100);
             entity.Property(g => g.TargetAmount).HasColumnType("decimal(18,2)");
             entity.Property(g => g.CurrentAmount).HasColumnType("decimal(18,2)");
+
+            entity.HasOne(g => g.User)
+                .WithMany(u => u.Goals)
+                .HasForeignKey(g => g.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
     }
 }

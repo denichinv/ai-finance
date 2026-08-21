@@ -8,4 +8,7 @@ public class Goal
     public decimal CurrentAmount { get; set; } = 0;
     public DateTime? Deadline { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
+    public int UserId { get; set; }
+    public User User { get; set; } = null!;
 }

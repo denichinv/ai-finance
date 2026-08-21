@@ -15,14 +15,15 @@ public class GoalService : IGoalService
         _context = context;
     }
 
-    public async Task<IEnumerable<Goal>> GetAllAsync()
+    public async Task<IEnumerable<Goal>> GetAllAsync(int userId)
     {
         return await _context.Goals
+            .Where(g => g.UserId == userId)
             .OrderByDescending(g => g.CreatedAt)
             .ToListAsync();
     }
 
-    public async Task<Goal> CreateAsync(CreateGoalDto dto)
+    public async Task<Goal> CreateAsync(CreateGoalDto dto, int userId)
     {
         var goal = new Goal
         {
@@ -30,7 +31,8 @@ public class GoalService : IGoalService
             Title = dto.Title,
             TargetAmount = dto.TargetAmount,
             CurrentAmount = dto.CurrentAmount,
-            Deadline = dto.Deadline
+            Deadline = dto.Deadline,
+            UserId = userId
         };
 
         _context.Goals.Add(goal);
@@ -39,14 +41,39 @@ public class GoalService : IGoalService
         return goal;
     }
 
-    public async Task<Goal?> UpdateProgressAsync(Guid id, UpdateGoalProgressDto dto)
+    public async Task<Goal?> UpdateProgressAsync(
+        Guid id,
+        UpdateGoalProgressDto dto,
+        int userId)
     {
-        var goal = await _context.Goals.FindAsync(id);
-        if (goal == null) return null;
+        var goal = await _context.Goals
+            .FirstOrDefaultAsync(g => g.Id == id && g.UserId == userId);
+
+        if (goal == null)
+        {
+            return null;
+        }
 
         goal.CurrentAmount = dto.CurrentAmount;
+
         await _context.SaveChangesAsync();
 
         return goal;
+    }
+
+    public async Task<bool> DeleteAsync(Guid id, int userId)
+    {
+        var goal = await _context.Goals
+            .FirstOrDefaultAsync(g => g.Id == id && g.UserId == userId);
+
+        if (goal == null)
+        {
+            return false;
+        }
+
+        _context.Goals.Remove(goal);
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 }
