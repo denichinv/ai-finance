@@ -15,14 +15,15 @@ public class TransactionService : ITransactionService
         _context = context;
     }
 
-    public async Task<IEnumerable<Transaction>> GetAllAsync()
+    public async Task<IEnumerable<Transaction>> GetAllAsync(int userId)
     {
         return await _context.Transactions
+            .Where(t => t.UserId == userId)
             .OrderByDescending(t => t.Date)
             .ToListAsync();
     }
 
-    public async Task<Transaction> CreateAsync(CreateTransactionDto dto)
+    public async Task<Transaction> CreateAsync(CreateTransactionDto dto, int userId)
     {
         var transaction = new Transaction
         {
@@ -31,7 +32,8 @@ public class TransactionService : ITransactionService
             Amount = dto.Amount,
             Type = dto.Type,
             Category = dto.Category,
-            Date = dto.Date
+            Date = dto.Date,
+            UserId = userId
         };
 
         _context.Transactions.Add(transaction);
@@ -40,13 +42,19 @@ public class TransactionService : ITransactionService
         return transaction;
     }
 
-    public async Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id, int userId)
     {
-        var transaction = await _context.Transactions.FindAsync(id);
-        if (transaction == null) return false;
+        var transaction = await _context.Transactions
+            .FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+
+        if (transaction == null)
+        {
+            return false;
+        }
 
         _context.Transactions.Remove(transaction);
         await _context.SaveChangesAsync();
+
         return true;
     }
 }

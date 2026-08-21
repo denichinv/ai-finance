@@ -23,6 +23,11 @@ public class AppDbContext : DbContext
             entity.Property(t => t.Title).IsRequired().HasMaxLength(100);
             entity.Property(t => t.Category).IsRequired().HasMaxLength(50);
             entity.Property(t => t.Amount).HasColumnType("decimal(18,2)");
+
+            entity.HasOne(t => t.User)
+                .WithMany(u => u.Transactions)
+                .HasForeignKey(t => t.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
         });
 
         modelBuilder.Entity<Goal>(entity =>
